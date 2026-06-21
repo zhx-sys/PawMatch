@@ -1,0 +1,231 @@
+CREATE TABLE IF NOT EXISTS shelter (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    account VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    nickname VARCHAR(50) NOT NULL,
+    manager_name VARCHAR(50) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    province VARCHAR(30) NOT NULL,
+    city VARCHAR(30) NOT NULL,
+    address_detail VARCHAR(200) NOT NULL,
+    introduction VARCHAR(500) NULL,
+    credit_score INT NOT NULL DEFAULT 100,
+    status TINYINT NOT NULL DEFAULT 1,
+    info_complete BOOLEAN NOT NULL DEFAULT FALSE,
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS `user` (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    account VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    nickname VARCHAR(50) NOT NULL,
+    real_name VARCHAR(50) NULL,
+    id_card VARCHAR(18) NULL,
+    phone VARCHAR(20) NULL,
+    province VARCHAR(30) NULL,
+    city VARCHAR(30) NULL,
+    address_detail VARCHAR(200) NULL,
+    pet_preference TEXT NULL,
+    living_space VARCHAR(20) NULL,
+    has_children BOOLEAN NOT NULL DEFAULT FALSE,
+    has_other_pets BOOLEAN NOT NULL DEFAULT FALSE,
+    pet_experience VARCHAR(20) NULL,
+    daily_routine VARCHAR(20) NULL,
+    budget_range VARCHAR(20) NULL,
+    matching_profile_complete BOOLEAN NOT NULL DEFAULT FALSE,
+    credit_score INT NOT NULL DEFAULT 100,
+    status TINYINT NOT NULL DEFAULT 1,
+    info_complete BOOLEAN NOT NULL DEFAULT FALSE,
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS pet (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    shelter_id BIGINT NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    type VARCHAR(20) NOT NULL,
+    breed VARCHAR(50) NOT NULL,
+    gender VARCHAR(10) NOT NULL,
+    age INT NOT NULL,
+    color VARCHAR(30) NULL,
+    weight DOUBLE NULL,
+    health_status VARCHAR(100) NOT NULL,
+    vaccinated BOOLEAN NOT NULL DEFAULT FALSE,
+    sterilized BOOLEAN NOT NULL DEFAULT FALSE,
+    size_level VARCHAR(10) NULL,
+    activity_level VARCHAR(10) NULL,
+    shedding_level VARCHAR(10) NULL,
+    socialized BOOLEAN NOT NULL DEFAULT TRUE,
+    beginner_friendly BOOLEAN NOT NULL DEFAULT TRUE,
+    needs_yard BOOLEAN NOT NULL DEFAULT FALSE,
+    good_with_kids BOOLEAN NOT NULL DEFAULT TRUE,
+    good_with_pets BOOLEAN NOT NULL DEFAULT TRUE,
+    description TEXT NULL,
+    images TEXT NULL,
+    status TINYINT NOT NULL DEFAULT 0,
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS adoption_application (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    pet_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    shelter_id BIGINT NOT NULL,
+    reason TEXT NOT NULL,
+    experience TEXT NOT NULL,
+    housing_condition TEXT NOT NULL,
+    status TINYINT NOT NULL DEFAULT 0,
+    reject_reason VARCHAR(500) NULL,
+    apply_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    audit_time DATETIME NULL,
+    complete_time DATETIME NULL
+);
+
+CREATE TABLE IF NOT EXISTS foster_service (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    shelter_id BIGINT NOT NULL,
+    title VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    pet_type VARCHAR(20) NOT NULL,
+    price_per_day DECIMAL(10,2) NOT NULL,
+    max_capacity INT NOT NULL,
+    available_dates TEXT NULL,
+    images TEXT NULL,
+    status TINYINT NOT NULL DEFAULT 1,
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS foster_order (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    service_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    shelter_id BIGINT NOT NULL,
+    pet_name VARCHAR(50) NOT NULL,
+    pet_type VARCHAR(20) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    total_days INT NOT NULL,
+    total_price DECIMAL(10,2) NOT NULL,
+    special_requests VARCHAR(500) NULL,
+    status TINYINT NOT NULL DEFAULT 0,
+    rating TINYINT NULL,
+    comment VARCHAR(500) NULL,
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS post (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    user_type TINYINT NOT NULL,
+    title VARCHAR(200) NOT NULL,
+    content TEXT NOT NULL,
+    images TEXT NULL,
+    category VARCHAR(20) NOT NULL,
+    view_count INT NOT NULL DEFAULT 0,
+    like_count INT NOT NULL DEFAULT 0,
+    status TINYINT NOT NULL DEFAULT 1,
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS comment (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    post_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    user_type TINYINT NOT NULL,
+    content VARCHAR(500) NOT NULL,
+    parent_id BIGINT NULL,
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS notification (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    user_type TINYINT NOT NULL,
+    type VARCHAR(50) NOT NULL,
+    title VARCHAR(100) NOT NULL,
+    content VARCHAR(500) NOT NULL,
+    related_id BIGINT NULL,
+    is_read BOOLEAN NOT NULL DEFAULT FALSE,
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS post_like (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    post_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uk_post_user (post_id, user_id)
+);
+
+CREATE TABLE IF NOT EXISTS message (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    from_user_id BIGINT NOT NULL,
+    from_user_type INT NOT NULL,
+    to_user_id BIGINT NOT NULL,
+    to_user_type INT NOT NULL,
+    adoption_id BIGINT NULL,
+    content TEXT NOT NULL,
+    is_read BOOLEAN NOT NULL DEFAULT FALSE,
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS pet_favorite (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    pet_id BIGINT NOT NULL,
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uk_user_pet (user_id, pet_id)
+);
+
+CREATE TABLE IF NOT EXISTS adoption_followup (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    adoption_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    shelter_id BIGINT NULL,
+    content TEXT NOT NULL,
+    images VARCHAR(1000) NULL,
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS report (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    reporter_id BIGINT NOT NULL,
+    target_type VARCHAR(20) NOT NULL,
+    target_id BIGINT NOT NULL,
+    reason TEXT NOT NULL,
+    status INT NOT NULL DEFAULT 0,
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS friend (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    user_type INT NOT NULL,
+    friend_id BIGINT NOT NULL,
+    friend_user_type INT NOT NULL,
+    status INT NOT NULL DEFAULT 0,
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uk_user_friend (user_id, friend_id)
+);
+
+CREATE TABLE IF NOT EXISTS credit_log (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    user_type TINYINT NOT NULL,
+    score_change INT NOT NULL,
+    score_after INT NOT NULL,
+    reason_type VARCHAR(30) NOT NULL,
+    reason_detail VARCHAR(200) NULL,
+    related_id BIGINT NULL,
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- 添加生日字段（如果表已存在）
+ALTER TABLE `user` ADD COLUMN IF NOT EXISTS birthday DATE NULL;

@@ -1,0 +1,25 @@
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Build
+backend/target/
+frontend/dist/
+frontend/node_modules/
+android-app/**/build/
+android-app/.gradle/
+android-app/.kotlin/
+android-app/local.properties
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env / Secrets
+.env
+.env.local
+application-local.yml
+
+# Logs
+*.log

@@ -1,0 +1,84 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+  background: #f7f3ef;
+  color: #3d322b;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+a { text-decoration: none; color: #e67e22; transition: color .2s; }
+a:hover { color: #d35400; }
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+/* Element Plus overrides for warmer theme */
+:root {
+  --el-color-primary: #e67e22;
+  --el-color-primary-light-3: #f0a04b;
+  --el-color-primary-light-5: #f5c17e;
+  --el-color-primary-light-7: #fae0b5;
+  --el-color-primary-light-8: #fcecd5;
+  --el-color-primary-light-9: #fef6ea;
+  --el-color-primary-dark-2: #d35400;
+  --el-border-radius-base: 12px;
+  --el-border-radius-small: 8px;
+}
+
+.el-button--primary {
+  --el-button-bg-color: #e67e22;
+  --el-button-border-color: #e67e22;
+  --el-button-hover-bg-color: #f0a04b;
+  --el-button-hover-border-color: #f0a04b;
+  --el-button-active-bg-color: #d35400;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.el-card {
+  border-radius: 16px !important;
+  border: none !important;
+  box-shadow: 0 2px 12px rgba(230, 126, 34, 0.08) !important;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.el-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(230, 126, 34, 0.15) !important;
+}
+
+.el-menu--horizontal {
+  border-bottom: none !important;
+}
+.el-menu--horizontal > .el-menu-item {
+  height: 60px !important;
+  line-height: 60px !important;
+  border-bottom: 2px solid transparent !important;
+  font-weight: 500;
+  color: #5c4a3a !important;
+}
+.el-menu--horizontal > .el-menu-item.is-active {
+  border-bottom-color: #e67e22 !important;
+  color: #e67e22 !important;
+  font-weight: 600;
+}
+.el-menu--horizontal > .el-menu-item:hover {
+  color: #e67e22 !important;
+  background: rgba(230, 126, 34, 0.06) !important;
+}
+
+.el-avatar {
+  box-shadow: 0 2px 8px rgba(230, 126, 34, 0.2);
+}
+
+.el-divider {
+  border-color: rgba(230, 126, 34, 0.12) !important;
+  margin: 32px 0 !important;
+}
+
+.el-badge__content {
+  border: 2px solid #fff;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d4c5b5; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #b8a590; }
